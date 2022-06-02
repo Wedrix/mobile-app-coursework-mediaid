@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '/screens/auth_screen.dart';
 import '/screens/menu_screen.dart';
+import '/screens/splash_screen.dart';
 import '/services/authentication.dart';
 
 class BakedNavigator extends Navigator {
@@ -25,13 +27,25 @@ class OpenScreens extends ChangeNotifier {
     return _cachedObject as OpenScreens;
   }
 
-  OpenScreens._internal();
+  OpenScreens._internal() {
+    Auth().addListener(() {
+      putAndFocus(const SplashScreen());
+
+      if (Auth().hasSignedInUser) {
+        Timer(const Duration(seconds: 2), () {
+          putAndFocus(const MenuScreen());
+        });
+      } else {
+        Timer(const Duration(seconds: 2), () {
+          putAndFocus(const AuthScreen());
+        });
+      }
+    });
+  }
 
   static OpenScreens? _cachedObject;
 
-  final List<Screen> _screens = [
-    if (Auth().hasSignedInUser) const MenuScreen() else const AuthScreen()
-  ];
+  final List<Screen> _screens = [const SplashScreen()];
 
   Screen? get focused => _screens.isNotEmpty ? _screens.last : null;
 

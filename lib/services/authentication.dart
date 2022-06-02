@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import '/screens/auth_screen.dart';
-import '/screens/menu_screen.dart';
-import '/services/navigation.dart';
+import 'package:flutter/material.dart';
 import '/services/domain.dart' as domain;
 
-class Auth {
+class Auth extends ChangeNotifier {
   static Auth? _cachedObject;
 
   domain.User? _user;
@@ -51,15 +49,13 @@ class Auth {
         }
 
         _user = user;
-
-        OpenScreens().putAndFocus(const MenuScreen());
       } else {
         _user = null;
 
         _userCreated = false;
-
-        OpenScreens().putAndFocus(const AuthScreen());
       }
+
+      notifyListeners();
     });
   }
 
