@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mobile_app_dev_coursework">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="mobile_app_dev_coursework"
+        android:label="MediAid"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
